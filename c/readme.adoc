@@ -1,0 +1,19 @@
+= Creating C/C++ project in Eclipse using cmake4eclipse
+
+Link: https://github.com/15knots/cmake4eclipse
+
+Steps:
+
+* File → New → Project...
+* C Project or C++ project (according to help of cmake4eclipse)
+* Executable/Shared Library/Static Library → Empty Project with Linux GCC (it's irrelevant, as the config comes from `CMakeFiles.txt`)
+* Choose configurations (Debug, Release)
+* Finish
+* Open Project Properties
+* C/C++ Build page, Builder Settings tab
+** Builder type should be _external builder_
+** Use default build command should be checked
+** Generate Makefiles automatically should be checked
+* C/C++ Build/Tool Chain Editor page
+** CMake Builder (portable) should be selected
+* Build the project in Eclipse - this will generate Makefiles and pass control to CDT (Debug goes to build/Debug, Release goes to Release...)

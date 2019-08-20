@@ -17,3 +17,6 @@ Steps:
 * C/C++ Build/Tool Chain Editor page
 ** CMake Builder (portable) should be selected
 * Build the project in Eclipse - this will generate Makefiles and pass control to CDT (Debug goes to build/Debug, Release goes to Release...)
+
+Additionaly (https://github.com/15knots/cmake4eclipse/issues/45#issuecomment-321658454) to make CDT see jni.h:
+* Project properties → C/C++ General → Preprocessor include paths ... → Providers and check CMAKE_EXPORT_COMPILE_COMMANDS

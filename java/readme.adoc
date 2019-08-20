@@ -1,0 +1,10 @@
+= Using JNI with Java
+
+Having a **compiled** class with native method declaration, we can:
+
+[listing,options=nowrap]
+----
+javah -cp java/target/classes/ grgr.f2f2019.n.NativeBridge
+----
+
+This will generate `grgr_f2f2019_n_NativeBridge.h` file, which we can implement in C.

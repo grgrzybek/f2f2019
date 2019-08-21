@@ -15,6 +15,38 @@ extern "C" {
 JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNative
   (JNIEnv *, jobject, jstring);
 
+/*
+ * Class:     grgr_f2f2019_n_NativeBridge
+ * Method:    processInformation
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_processInformation
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     grgr_f2f2019_n_NativeBridge
+ * Method:    pthreads
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_pthreads
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     grgr_f2f2019_n_NativeBridge
+ * Method:    pthreadsAttached
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_pthreadsAttached
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     grgr_f2f2019_n_NativeBridge
+ * Method:    pthreadsAll
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_pthreadsAll
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

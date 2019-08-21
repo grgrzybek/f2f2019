@@ -16,31 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package grgr.f2f2019.n;
+package grgr.f2f2019.apps;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import grgr.f2f2019.n.NativeBridge;
 
-public class NativeBridge {
+public class PthreadsAll {
 
-    public static Logger LOG = LoggerFactory.getLogger(NativeBridge.class);
-
-    static {
-        System.load("/home/ggrzybek/sources/github.com/grgrzybek/f2f2019/c/build/Debug/libnbridge.so");
-    }
-
-    public native void helloNative(String name);
-
-    public native void processInformation();
-
-    public native void pthreads();
-
-    public native void pthreadsAttached();
-
-    public native void pthreadsAll();
-
-    public void helloJava(String name) {
-        LOG.info("Hello {}!", name);
+    public static void main(String[] args) {
+        new NativeBridge().pthreadsAll();
     }
 
 }

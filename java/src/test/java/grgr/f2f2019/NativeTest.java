@@ -18,6 +18,8 @@
  */
 package grgr.f2f2019;
 
+import java.io.IOException;
+
 import grgr.f2f2019.n.NativeBridge;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,12 @@ public class NativeTest {
     @Test
     public void invokeNativeMethods() {
         NB.helloNative("Grzegorz");
+    }
+
+    @Test
+    public void nativeProcessInformation() throws IOException {
+        NB.processInformation();
+        System.in.read();
     }
 
 }

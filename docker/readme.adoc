@@ -1,0 +1,25 @@
+= Docker images supporting the presentation
+
+threads:
+
+----
+$ docker build .
+Sending build context to Docker daemon  29.7 kB
+Step 1/6 : FROM docker.io/fedora:30
+...
+Removing intermediate container 9a5738b39a3f
+Successfully built 200856d877a9
+
+$ docker tag 200856d877a9 ggrzybek/f2f2019-threads:1
+
+$ docker images|grep f2f
+ggrzybek/f2f2019-threads                                                        1                   200856d877a9        2 minutes ago       267 MB
+
+$ docker run -ti --rm ggrzybek/f2f2019-threads:1 
+My PID: 1
+ptid: -345860352, pid: 1, tid: 7, stack: 0x7f7deae2a000, stack size: 8388608
+ptid: -469764352, pid: 1, tid: 9, stack: 0x7f7de3800000, stack size: 8388608
+ptid: -354253056, pid: 1, tid: 8, stack: 0x7f7dea629000, stack size: 8388608
+ptid: -371038464, pid: 1, tid: 11, stack: 0x7f7de9627000, stack size: 8388608
+ptid: -362645760, pid: 1, tid: 10, stack: 0x7f7de9e28000, stack size: 8388608
+----

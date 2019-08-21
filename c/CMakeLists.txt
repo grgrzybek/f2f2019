@@ -40,6 +40,11 @@ include_directories("${CMAKE_INSTALL_PREFIX}/include" "${PROJECT_SOURCE_DIR}/inc
 
 add_executable(cversion)
 target_sources(cversion PUBLIC src/cversion.c)
+add_executable(threads)
+target_sources(threads PUBLIC src/threads.c)
+target_link_libraries(threads Threads::Threads)
+add_executable(processes)
+target_sources(processes PUBLIC src/processes.c)
 
 # https://cmake.org/cmake/help/v3.14/module/FindJNI.html
 find_package(JNI REQUIRED)
@@ -49,4 +54,3 @@ target_link_libraries(nbridge Threads::Threads)
 
 # https://cmake.org/cmake/help/v3.14/command/install.html
 install(TARGETS cversion RUNTIME DESTINATION bin)
-

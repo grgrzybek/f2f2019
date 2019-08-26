@@ -228,7 +228,7 @@ task2(void *p) {
 	pthread_attr_getstack(&attr, &stack_address, &stack_size);
 
 	char *cmsg = calloc(1024, sizeof(char));
-	snprintf(cmsg, 1024, "ptid: %d, pid: %d, tid: %d, stack: %p, stack size: %d\n", tid, getpid(), syscall(SYS_gettid), stack_address, stack_size);
+	snprintf(cmsg, 1024, "ptid: %d, pid: %d, tid: %d, stack: %p, stack size: %d", tid, getpid(), syscall(SYS_gettid), stack_address, stack_size);
 	log_info(env, logger_class, this, cmsg);
 	free(cmsg);
 	while (1) {

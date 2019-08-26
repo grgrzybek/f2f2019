@@ -23,7 +23,24 @@ import grgr.f2f2019.n.NativeBridge;
 public class PthreadsAll {
 
     public static void main(String[] args) {
+        new Thread(PthreadsAll::first).start();
         new NativeBridge().pthreadsAll();
+    }
+
+    public static void first() {
+        second();
+    }
+
+    public static void second() {
+        third();
+    }
+
+    public static void third() {
+        try {
+            Thread.sleep(3600 * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException();
+        }
     }
 
 }

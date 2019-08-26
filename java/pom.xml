@@ -122,6 +122,12 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>0.21.1</version>
+            </plugin>
         </plugins>
     </build>
 

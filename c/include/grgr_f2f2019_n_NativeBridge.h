@@ -17,6 +17,14 @@ JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNative
 
 /*
  * Class:     grgr_f2f2019_n_NativeBridge
+ * Method:    helloNativeWithCallback
+ * Signature: (Ljava/lang/String;Ljava/lang/ClassLoader;)V
+ */
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNativeWithCallback
+  (JNIEnv *, jobject, jstring, jobject);
+
+/*
+ * Class:     grgr_f2f2019_n_NativeBridge
  * Method:    processInformation
  * Signature: ()V
  */

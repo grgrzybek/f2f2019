@@ -42,6 +42,65 @@ typedef struct task_info {
 	jclass logger_class;
 } task_info;
 
+typedef struct thread_args {
+    JavaVM *vm;
+    jobject obj;
+    jstring msgFromJava;
+	jobject loader;
+} thread_args;
+
+void *callback(void *callbackArgs) {
+	thread_args *args = (thread_args *) callbackArgs;
+	JavaVM *vm = args->vm;
+	void *penv;
+
+	(*vm)->AttachCurrentThread(vm, &penv, NULL);
+	JNIEnv *env = (JNIEnv *) penv;
+
+	const char *s = (*env)->GetStringUTFChars(env, args->msgFromJava, NULL);
+	printf("native code received: %s\n", s);
+
+	jclass cl_class = (*env)->GetObjectClass(env, args->loader);
+	jmethodID loadClass_mid = (*env)->GetMethodID(env, cl_class, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+
+	if (!loadClass_mid) {
+		printf("ERROR! Can't get \"loadClass\" handle!\n");
+		(*vm)->DetachCurrentThread(vm);
+		return NULL;
+	}
+
+	char *const name = calloc(1024, sizeof(char));
+	strcpy(name, "com.rh.example.NativeBridgeCallback");
+	jstring cname = (*env)->NewStringUTF(env, name);
+	jclass callbackClazz = (*env)->CallObjectMethod(env, args->loader, loadClass_mid, cname);
+	free(name);
+
+	if (!callbackClazz) {
+		printf("ERROR! Java class incorrect!\n");
+		(*vm)->DetachCurrentThread(vm);
+		return NULL;
+	}
+
+	jmethodID callbackMid = (*env)->GetMethodID(env, callbackClazz, "doCallback", "(Ljava/lang/String;)V");
+	if (callbackMid == 0) {
+		printf("ERROR! Java callback method incorrect!\n");
+		(*vm)->DetachCurrentThread(vm);
+		return NULL;
+	}
+	jmethodID constructorMid = (*env)->GetMethodID(env, callbackClazz, "<init>", "()V");
+	if (constructorMid == 0) {
+		printf("ERROR! Java constructor method incorrect!\n");
+		(*vm)->DetachCurrentThread(vm);
+		return NULL;
+	}
+
+	jstring jstr = (*env)->NewStringUTF(env, "native code says hello");
+	jobject newObj = (*env)->NewObject(env, callbackClazz, constructorMid);
+	(*env)->CallVoidMethod(env, newObj, callbackMid, jstr);
+
+	(*vm)->DetachCurrentThread(vm);
+}
+
 JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNative (JNIEnv *env, jobject this, jstring name) {
 	printf("My PID: %d\n", getpid());
 
@@ -51,6 +110,30 @@ JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNative (JNIEnv *env
 	(*env)->ReleaseStringUTFChars(env, name, s);
 
 	log_info(env, (*env)->FindClass(env, "Lorg/slf4j/Logger;"), this, "Calling logger from native code");
+}
+
+
+JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_helloNativeWithCallback (JNIEnv *env, jobject this, jstring name, jobject loader) {
+	printf("start native\n");
+	thread_args myargs;
+	myargs.obj = this;
+	myargs.msgFromJava = name;
+	myargs.loader = loader;
+	(*env)->GetJavaVM(env, &myargs.vm);
+
+	pthread_t mythread;
+
+	if (pthread_create(&mythread, NULL, callback, (void *) &myargs)) {
+		fprintf(stderr, "Error creating thread\n");
+		return;
+	}
+
+	if (pthread_join(mythread, NULL)) {
+		fprintf(stderr, "Error joining thread\n");
+		return;
+	}
+
+	return;
 }
 
 JNIEXPORT void JNICALL Java_grgr_f2f2019_n_NativeBridge_processInformation (JNIEnv *env, jobject this) {
